@@ -1,0 +1,22 @@
+{
+  "name": "KaiOS Bible App",
+  "description": "A simple Bible app for KaiOS",
+  "launch_path": "/index.html",
+  "icons": {
+    "56": "/icon.png",
+    "112": "/icon.png"
+  },
+  "developer": {
+    "name": "Tyson Biegler",
+    "url": "http://example.com"
+  },
+  "type": "web",
+  "permissions": {},
+  "locales": {
+    "en-US": {
+      "name": "Bible App",
+      "description": "Bible from bereanbible.com"
+    }
+  },
+  "default_locale": "en-US"
+}
