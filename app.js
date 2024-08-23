@@ -133,7 +133,7 @@ function BibleApp() {
     React.createElement(
       "div",
       { className: "header" },
-      React.createElement("span", null, "KaiOS Bible App")
+      React.createElement("span", null, "Berean Standard Bible (BSB)")
     ),
     React.createElement(
       "div",
