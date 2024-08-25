@@ -146,16 +146,12 @@ function BibleApp() {
   const handleShare = () => {
     if (selectedVerses.length === 0) return;
 
-    // Join all selected verses into one string with newline characters
     const verseTexts = selectedVerses
       .map((verse) => {
         const text = bibleData[currentBook][currentChapter][verse];
-        return `*${verse}.* ${text}`;
+        return `**${verse}.** ${text}`;
       })
       .join("\n");
-
-    // Ensure the entire text block is wrapped in a single set of quotation marks
-    const formattedVerseTexts = `"${verseTexts}"`;
 
     const reference = `${currentBook} ${currentChapter}:${selectedVerses[0]}${
       selectedVerses.length > 1
@@ -163,11 +159,9 @@ function BibleApp() {
         : ""
     }`;
 
-    console.log(formattedVerseTexts);
-    console.log(reference);
-
-    const appLink = "https://tysonbiegler.github.io/Bible/"; // Replace with your actual app link
-    const shareText = `${verseTexts}\n${reference}\n\n${appLink}`;
+    const appLink =
+      "Download the bible app here --> [https://your-kaios-bible-app-link.com]"; // Replace with your actual app link
+    const shareText = `"${verseTexts}"\n${reference}\n\n${appLink}`;
 
     // Copy to clipboard
     navigator.clipboard
