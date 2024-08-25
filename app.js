@@ -7,6 +7,11 @@ function BibleApp() {
   const [currentPage, setCurrentPage] = React.useState(0);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
+  const [isChapterSelectorOpen, setIsChapterSelectorOpen] =
+    React.useState(false);
+  const [selectedVerses, setSelectedVerses] = React.useState([]);
+  const [shareMessage, setShareMessage] = React.useState("");
+  const versesPerPage = 5;
 
   React.useEffect(() => {
     const handleDataLoaded = () => {
@@ -40,7 +45,7 @@ function BibleApp() {
           const maxPage =
             Math.ceil(
               Object.keys(bibleData[currentBook][currentChapter]).length /
-                versesPerPage()
+                versesPerPage
             ) - 1;
           return Math.min(nextPage, maxPage);
         });
@@ -63,12 +68,17 @@ function BibleApp() {
     };
   }, [handleKeyDown]);
 
-  const versesPerPage = React.useCallback(() => {
-    if (!bibleData[currentBook] || !bibleData[currentBook][currentChapter]) {
-      return 10; // Default value if no data is available
-    }
-    return Object.keys(bibleData[currentBook][currentChapter]).length;
-  }, [bibleData, currentBook, currentChapter]);
+  const toggleVerseSelection = (verse) => {
+    setSelectedVerses((prevSelected) => {
+      if (prevSelected.includes(verse)) {
+        return prevSelected.filter((v) => v !== verse);
+      } else {
+        return [...prevSelected, verse].sort(
+          (a, b) => parseInt(a) - parseInt(b)
+        );
+      }
+    });
+  };
 
   const chapterText = React.useMemo(() => {
     if (isLoading || !bibleData || !currentBook || !currentChapter) {
@@ -80,13 +90,18 @@ function BibleApp() {
     }
     const verses = Object.entries(bibleData[currentBook][currentChapter]);
     const pageVerses = verses.slice(
-      currentPage * versesPerPage(),
-      (currentPage + 1) * versesPerPage()
+      currentPage * versesPerPage,
+      (currentPage + 1) * versesPerPage
     );
     return pageVerses.map(([verse, text]) =>
       React.createElement(
         "p",
-        { key: verse, "data-verse": verse },
+        {
+          key: verse,
+          "data-verse": verse,
+          onClick: () => toggleVerseSelection(verse),
+          className: selectedVerses.includes(verse) ? "selected" : "",
+        },
         React.createElement("strong", null, verse + ". "),
         text
       )
@@ -97,13 +112,14 @@ function BibleApp() {
     currentBook,
     currentChapter,
     currentPage,
-    versesPerPage,
+    selectedVerses,
   ]);
 
   const handleMenuSelect = (book, chapter) => {
     setCurrentBook(book);
     setCurrentChapter(chapter);
     setCurrentPage(0);
+    setSelectedVerses([]);
     setIsMenuOpen(false);
   };
 
@@ -111,8 +127,60 @@ function BibleApp() {
     setCurrentBook(book);
     setCurrentChapter(chapter);
     setCurrentVerse(verse);
-    setCurrentPage(Math.floor((parseInt(verse) - 1) / versesPerPage()));
+    setCurrentPage(Math.floor((parseInt(verse) - 1) / versesPerPage));
+    setSelectedVerses([]);
     setIsSearchOpen(false);
+  };
+
+  const handleCurrentBookClick = () => {
+    setIsChapterSelectorOpen(true);
+  };
+
+  const handleChapterSelect = (chapter) => {
+    setCurrentChapter(chapter);
+    setCurrentPage(0);
+    setSelectedVerses([]);
+    setIsChapterSelectorOpen(false);
+  };
+
+  const handleShare = () => {
+    if (selectedVerses.length === 0) return;
+
+    // Join all selected verses into one string with newline characters
+    const verseTexts = selectedVerses
+      .map((verse) => {
+        const text = bibleData[currentBook][currentChapter][verse];
+        return `*${verse}.* ${text}`;
+      })
+      .join("\n");
+
+    // Ensure the entire text block is wrapped in a single set of quotation marks
+    const formattedVerseTexts = `"${verseTexts}"`;
+
+    const reference = `${currentBook} ${currentChapter}:${selectedVerses[0]}${
+      selectedVerses.length > 1
+        ? "-" + selectedVerses[selectedVerses.length - 1]
+        : ""
+    }`;
+
+    console.log(formattedVerseTexts);
+    console.log(reference);
+
+    const appLink = "https://tysonbiegler.github.io/Bible/"; // Replace with your actual app link
+    const shareText = `${verseTexts}\n${reference}\n\n${appLink}`;
+
+    // Copy to clipboard
+    navigator.clipboard
+      .writeText(shareText)
+      .then(() => {
+        setShareMessage("Copied to clipboard");
+        setTimeout(() => setShareMessage(""), 2000); // Clear message after 2 seconds
+      })
+      .catch((err) => {
+        console.error("Failed to copy text: ", err);
+        setShareMessage("Failed to copy");
+        setTimeout(() => setShareMessage(""), 2000);
+      });
   };
 
   if (isLoading) {
@@ -133,7 +201,7 @@ function BibleApp() {
     React.createElement(
       "div",
       { className: "header" },
-      React.createElement("span", null, "Berean Standard Bible (BSB)")
+      React.createElement("span", null, "KaiOS Bible App")
     ),
     React.createElement(
       "div",
@@ -152,14 +220,23 @@ function BibleApp() {
       ),
       React.createElement(
         "span",
-        null,
+        {
+          onClick: handleCurrentBookClick,
+          style: { cursor: "pointer" },
+        },
         `${currentBook} ${currentChapter}:${currentVerse}`
       ),
-      React.createElement(
-        "span",
-        { onClick: () => setIsSearchOpen(true) },
-        "Search"
-      )
+      selectedVerses.length > 0
+        ? React.createElement(
+            "span",
+            { onClick: handleShare },
+            shareMessage || "Share"
+          )
+        : React.createElement(
+            "span",
+            { onClick: () => setIsSearchOpen(true) },
+            "Search"
+          )
     ),
     isMenuOpen &&
       React.createElement(Menu, {
@@ -172,6 +249,13 @@ function BibleApp() {
         bibleData: bibleData,
         onSearchResult: handleSearchResult,
         onClose: () => setIsSearchOpen(false),
+      }),
+    isChapterSelectorOpen &&
+      React.createElement(ChapterSelector, {
+        book: currentBook,
+        chapters: Object.keys(bibleData[currentBook]),
+        onSelect: handleChapterSelect,
+        onClose: () => setIsChapterSelectorOpen(false),
       })
   );
 }
@@ -203,15 +287,19 @@ function Menu({ bibleData, onSelect, onClose }) {
         ),
         React.createElement("span", null, `Chapters of ${selectedBook}`)
       ),
-      chapters.map((chapter) =>
-        React.createElement(
-          "div",
-          {
-            key: chapter,
-            className: "menu-item",
-            onClick: () => handleChapterSelect(chapter),
-          },
-          `Chapter ${chapter}`
+      React.createElement(
+        "div",
+        { className: "menu-content" },
+        chapters.map((chapter) =>
+          React.createElement(
+            "div",
+            {
+              key: chapter,
+              className: "menu-item",
+              onClick: () => handleChapterSelect(chapter),
+            },
+            `Chapter ${chapter}`
+          )
         )
       )
     );
@@ -226,15 +314,19 @@ function Menu({ bibleData, onSelect, onClose }) {
       React.createElement("button", { onClick: onClose }, "Close"),
       React.createElement("span", null, "Books of the Bible")
     ),
-    bookList.map((book) =>
-      React.createElement(
-        "div",
-        {
-          key: book,
-          className: "menu-item",
-          onClick: () => handleBookSelect(book),
-        },
-        book
+    React.createElement(
+      "div",
+      { className: "menu-content" },
+      bookList.map((book) =>
+        React.createElement(
+          "div",
+          {
+            key: book,
+            className: "menu-item",
+            onClick: () => handleBookSelect(book),
+          },
+          book
+        )
       )
     )
   );
@@ -243,20 +335,35 @@ function Menu({ bibleData, onSelect, onClose }) {
 function SearchMenu({ bibleData, onSearchResult, onClose }) {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [results, setResults] = React.useState([]);
+  const [searchType, setSearchType] = React.useState("similar"); // 'exact' or 'similar'
 
   const performSearch = React.useCallback(() => {
     const searchResults = [];
+    const lowerQuery = searchQuery.toLowerCase();
+
     Object.entries(bibleData).forEach(([book, chapters]) => {
       Object.entries(chapters).forEach(([chapter, verses]) => {
         Object.entries(verses).forEach(([verse, text]) => {
-          if (text.toLowerCase().includes(searchQuery.toLowerCase())) {
+          const lowerText = text.toLowerCase();
+          let match = false;
+
+          if (searchType === "exact") {
+            match = lowerText.includes(lowerQuery);
+          } else {
+            // similar search
+            const words = lowerQuery.split(/\s+/);
+            match = words.every((word) => lowerText.includes(word));
+          }
+
+          if (match) {
             searchResults.push({ book, chapter, verse, text });
           }
         });
       });
     });
+
     setResults(searchResults.slice(0, 50)); // Limit to 50 results for performance
-  }, [searchQuery, bibleData]);
+  }, [searchQuery, searchType, bibleData]);
 
   React.useEffect(() => {
     if (searchQuery) {
@@ -264,7 +371,11 @@ function SearchMenu({ bibleData, onSearchResult, onClose }) {
     } else {
       setResults([]);
     }
-  }, [searchQuery, performSearch]);
+  }, [searchQuery, searchType, performSearch]);
+
+  const handleSearchTypeChange = (type) => {
+    setSearchType(type);
+  };
 
   return React.createElement(
     "div",
@@ -275,16 +386,46 @@ function SearchMenu({ bibleData, onSearchResult, onClose }) {
       React.createElement("button", { onClick: onClose }, "Close"),
       React.createElement("span", null, "Search")
     ),
-    React.createElement("input", {
-      type: "text",
-      value: searchQuery,
-      onChange: (e) => setSearchQuery(e.target.value),
-      placeholder: "Enter search text",
-      className: "search-input",
-    }),
     React.createElement(
       "div",
-      { className: "search-results" },
+      { className: "search-options" },
+      React.createElement("input", {
+        type: "text",
+        value: searchQuery,
+        onChange: (e) => setSearchQuery(e.target.value),
+        placeholder: "Enter search text",
+        className: "search-input",
+      }),
+      React.createElement(
+        "div",
+        { className: "search-type" },
+        React.createElement(
+          "label",
+          null,
+          React.createElement("input", {
+            type: "radio",
+            value: "exact",
+            checked: searchType === "exact",
+            onChange: () => handleSearchTypeChange("exact"),
+          }),
+          "Exact"
+        ),
+        React.createElement(
+          "label",
+          null,
+          React.createElement("input", {
+            type: "radio",
+            value: "similar",
+            checked: searchType === "similar",
+            onChange: () => handleSearchTypeChange("similar"),
+          }),
+          "Similar"
+        )
+      )
+    ),
+    React.createElement(
+      "div",
+      { className: "search-content" },
       results.length > 0
         ? results.map((result, index) =>
             React.createElement(
@@ -305,6 +446,34 @@ function SearchMenu({ bibleData, onSearchResult, onClose }) {
             { className: "no-results" },
             searchQuery ? "No results found" : "Enter a search term"
           )
+    )
+  );
+}
+
+function ChapterSelector({ book, chapters, onSelect, onClose }) {
+  return React.createElement(
+    "div",
+    { className: "menu" },
+    React.createElement(
+      "div",
+      { className: "menu-header" },
+      React.createElement("button", { onClick: onClose }, "Close"),
+      React.createElement("span", null, `Chapters of ${book}`)
+    ),
+    React.createElement(
+      "div",
+      { className: "menu-content" },
+      chapters.map((chapter) =>
+        React.createElement(
+          "div",
+          {
+            key: chapter,
+            className: "menu-item",
+            onClick: () => onSelect(chapter),
+          },
+          `Chapter ${chapter}`
+        )
+      )
     )
   );
 }
