@@ -149,7 +149,7 @@ function BibleApp() {
     const verseTexts = selectedVerses
       .map((verse) => {
         const text = bibleData[currentBook][currentChapter][verse];
-        return `**${verse}.** ${text}`;
+        return `*${verse}.* ${text}`;
       })
       .join("\n");
 
