@@ -110,7 +110,7 @@ function BibleApp() {
 
   return React.createElement('div', { className: 'app-container' },
     React.createElement('div', { className: 'header' },
-      React.createElement('span', null, 'KaiOS Bible App')
+      React.createElement('span', null, 'EternalWords')
     ),
     React.createElement('div', { className: 'content' },
       chapterText.length > 0 ? chapterText : React.createElement('p', null, 'No verses found for this chapter.')

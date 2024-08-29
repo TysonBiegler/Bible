@@ -1,9 +1,10 @@
-body, html {
+body,
+html {
   box-sizing: border-box;
   margin: 0;
-  padding: 0
-  height: 100vh;
-  width: 100vw;
+  padding: 0;
+  height: 100%;
+  width: 100%;
 }
 
 .app-container {
@@ -14,14 +15,19 @@ body, html {
 .header {
   background-color: #3498db;
   color: white;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 5px 10px;
   text-align: center;
+  display: flex;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 .content {
   flex-grow: 1;
   overflow-y: auto;
+  padding: 35px 15px 35px 15px;
+  padding: ;
 }
 
 .footer {
@@ -29,8 +35,8 @@ body, html {
   color: white;
   padding: 10px;
   display: flex;
-  justify-content: space-between;
-  position: sticky;
+  justify-content: space-evenly;
+  position: fixed;
   bottom: 0;
   width: 100%;
 }
@@ -72,7 +78,7 @@ body, html {
 }
 
 .search-input {
-  width: 100vw;
+  width: 90%;
   padding: 10px;
   margin-bottom: 10px;
 }
