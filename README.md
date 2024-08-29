@@ -1,4 +1,4 @@
-# Bible
+# Eternal Words Bible
 ## KaiOS bible app
 <p>This app was created for KaiOS devices.</p>
 <br>
