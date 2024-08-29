@@ -1,5 +1,5 @@
 # Eternal Words Bible
-## KaiOS bible app
+### KaiOS bible app - Berean Standard Translation
 <p>This app was created for KaiOS devices.</p>
 <br>
 <img align="center" alt="KaiOS Bible" width="80%" style="padding-right:10px;" src="https://github.com/TysonBiegler/Bible/blob/master/thumbnails/Thumbnail.png" />
