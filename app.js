@@ -153,7 +153,7 @@ function BibleApp() {
       React.createElement(
         "span",
         { onClick: () => setIsOptionsOpen(true) },
-        "Options"
+        "Settings"
       )
     ),
     isBookMenuOpen &&
@@ -278,8 +278,37 @@ function OptionsMenu({ currentFontSize, onChangeFontSize, onClose }) {
     "div",
     { className: "menu" },
     React.createElement(
+      "span",
+      { className: "settings-menu" },"Navigation instructions"),
+    React.createElement(
       "div",
       { className: "menu-content" },
+      React.createElement(
+        "ul",
+        { className: "instruction-menu" }, "Use number keys to navigate"),
+      React.createElement(
+        "li",
+        { className: "instruction-item" },
+        "4 - Left shoulder button"
+      ),
+      React.createElement(
+        "li",
+        { className: "instruction-item" },
+        "6 - Right shoulder button"
+      ),
+      React.createElement(
+        "li",
+        { className: "instruction-item" },
+        "7 - Zoom out"
+      ),
+      React.createElement(
+        "li",
+        { className: "instruction-item" },
+        "4 - Zoom in"
+      ),
+      React.createElement(
+        "hr"
+      ),
       React.createElement("div", { className: "menu-item" }, "Font Size:"),
       fontSizes.map((size) =>
         React.createElement(

@@ -59,9 +59,17 @@ html {
 .menu-header {
   background-color: #3498db;
   color: white;
-  padding: 10px;
+  padding: 5px 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+}
+
+button {
+  margin-right: 5px;
+  color: #3498db;
+  padding: 2px 5px;
+  border: none;
+  border-radius: 8px;
 }
 
 .menu-content {
@@ -74,6 +82,19 @@ html {
   padding: 10px;
   border-bottom: 1px solid #ecf0f1;
   cursor: pointer;
+}
+
+.settings-menu {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.instruction-menu {
+  margin-bottom: 10px;
+}
+.instruction-item {
+  list-style-type: none;
 }
 
 .search-input {
