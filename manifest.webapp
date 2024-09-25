@@ -1,20 +1,20 @@
 {
-  "name": "KaiOS Bible App",
+  "name": "EternalWords",
   "description": "A simple Bible app for KaiOS",
   "launch_path": "/index.html",
   "icons": {
-    "56": "/icon.png",
-    "112": "/icon.png"
+    "56": "/thumbnails/main.jpeg",
+    "112": "/thumbnails/main.jpeg"
   },
   "developer": {
     "name": "Tyson Biegler",
-    "url": "http://example.com"
+    "url": "https://tysonbiegler.github.io/Bible/"
   },
   "type": "web",
   "permissions": {},
   "locales": {
     "en-US": {
-      "name": "Bible App",
+      "name": "EternalWords",
       "description": "Bible from bereanbible.com"
     }
   },
