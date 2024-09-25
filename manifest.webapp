@@ -1,10 +1,10 @@
 {
-  "name": "EternalWords",
-  "description": "A simple Bible app for KaiOS",
+  "name": "The Narrow Gate Bible App",
+  "description": "A Bible app for KaiOS",
   "launch_path": "/index.html",
   "icons": {
-    "56": "/thumbnails/main.jpeg",
-    "112": "/thumbnails/main.jpeg"
+    "56": "The Narrow Gate.png",
+    "112": "The Narrow Gate.png"
   },
   "developer": {
     "name": "Tyson Biegler",
@@ -14,8 +14,8 @@
   "permissions": {},
   "locales": {
     "en-US": {
-      "name": "EternalWords",
-      "description": "Bible from bereanbible.com"
+      "name": "The Narrow Gate Bible App",
+      "description": "Everyone should have access to a free bible. This bible text is from bereanbible.com"
     }
   },
   "default_locale": "en-US"
