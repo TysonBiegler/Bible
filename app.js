@@ -134,9 +134,9 @@ function BibleApp() {
         React.createElement("img", {
           src: "The Narrow Gate.png",
           alt: "Logo",
-          className: "logo"
+          className: "logo",
         }),
-        "EternalWords"
+        "The Narrow Gate Bible App"
       )
     ),
     React.createElement(
@@ -288,13 +288,17 @@ function OptionsMenu({ currentFontSize, onChangeFontSize, onClose }) {
     { className: "menu" },
     React.createElement(
       "span",
-      { className: "settings-menu" },"Navigation instructions"),
+      { className: "settings-menu" },
+      "Navigation instructions"
+    ),
     React.createElement(
       "div",
       { className: "menu-content" },
       React.createElement(
         "ul",
-        { className: "instruction-menu" }, "Use number keys to navigate"),
+        { className: "instruction-menu" },
+        "Use number keys to navigate"
+      ),
       React.createElement(
         "li",
         { className: "instruction-item" },
@@ -315,9 +319,7 @@ function OptionsMenu({ currentFontSize, onChangeFontSize, onClose }) {
         { className: "instruction-item" },
         "4 - Zoom in"
       ),
-      React.createElement(
-        "hr"
-      ),
+      React.createElement("hr"),
       React.createElement("div", { className: "menu-item" }, "Font Size:"),
       fontSizes.map((size) =>
         React.createElement(
