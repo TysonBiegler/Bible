@@ -128,7 +128,16 @@ function BibleApp() {
     React.createElement(
       "div",
       { className: "header" },
-      React.createElement("span", null, "EternalWords")
+      React.createElement(
+        "span",
+        null,
+        React.createElement("img", {
+          src: "The Narrow Gate.png",
+          alt: "Logo",
+          className: "logo"
+        }),
+        "EternalWords"
+      )
     ),
     React.createElement(
       "div",
@@ -316,7 +325,7 @@ function OptionsMenu({ currentFontSize, onChangeFontSize, onClose }) {
           {
             key: size,
             className: `menu-item ${
-              size === currentFontSize ? "selected" : ""
+              size === currentFontSize ? "font-selection" : ""
             }`,
             onClick: () => onChangeFontSize(size),
           },
