@@ -340,12 +340,14 @@ function OptionsMenu({ currentFontSize, onChangeFontSize, onClose }) {
       "div",
       { className: "blog-link" },
       "Click here to follow the Narrow Gate blog: ",
-      React.createElement(
-        "br"
-      ),
+      React.createElement("br"),
       React.createElement(
         "a",
-        { href: "https://tysonbiegler.substack.com/", target: "_blank", rel: "noopener noreferrer" },
+        {
+          href: "https://tysonbiegler.substack.com/",
+          target: "_blank",
+          rel: "noopener noreferrer",
+        },
         "Narrow Gate"
       )
     ),
