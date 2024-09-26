@@ -32,8 +32,8 @@ html {
   flex-grow: 1;
   overflow-y: auto;
   padding: 35px 15px 35px 15px;
-  background-color: #223344;
-  color: whitesmoke;
+  background-color: whitesmoke;
+  color: #223344;
 }
 
 .footer {
@@ -121,12 +121,13 @@ button {
   border-radius: 8px;
 }
 
-.blog-link{
+.blog-link {
   padding: 10px;
   text-align: center;
   font-size: 16px;
 }
-.blog-link a:link, a:visited {
+.blog-link a:link,
+a:visited {
   text-decoration: none;
   color: #9acee2;
 }
