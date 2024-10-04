@@ -8,7 +8,9 @@
 <div>
 <img alt="KaiOS Bible" width="25%" style="padding-right:10px;" src="https://github.com/TysonBiegler/Bible/blob/master/thumbnails/Main.jpeg" />
 <img alt="KaiOS Bible" width="25%" style="padding-right:10px;" src="https://github.com/TysonBiegler/Bible/blob/master/thumbnails/Books.jpeg" />
-<img alt="KaiOS Bible" width="25%" style="padding-right:10px;" src="https://github.com/TysonBiegler/Bible/blob/master/thumbnails/Search.jpeg" />
+<img alt="KaiOS Bible" width="25%" style="padding-right:10px;" src="https://github.com/TysonBiegler/Bible/blob/master/thumbnails/Highlights.jpeg" />
+<img alt="KaiOS Bible" width="25%" style="padding-right:10px;" src="https://github.com/TysonBiegler/Bible/blob/master/thumbnails/Settings.jpeg" />
+
 </div>
 
 <p>more functionality will be added soon.</p>
